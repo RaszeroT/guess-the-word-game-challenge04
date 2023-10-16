@@ -15,23 +15,32 @@
         Once you click start you will be presented with a multiple choice
         question. If you answer the question correct you will be presented with
         another question. Each question you answer incorrectly you will have 10
-        seconds deducted from the timer.
+        seconds deducted from your time.
       </p>
       <h2>GOOD LUCK!!</h2>
       <nav><button id="startButton">START</button></nav>
+      <button id="viewHighscores">View Highscores</button>
     </header>
 
     <!-- where questions will be presented -->
     <section id="clickArea" class="hide">
-      <h2 id="question"></h2>
+      <div>Time Left: <span id="timer"></span></div>
+      <div id="questionContainer"></div>
     </section>
 
     <section id="enterInitials" class="hide">
+      <form id="highScoreForm">
+        <label for="#initials">Enter your initials to save your score.</label>
+        <input type="text" id="initials" />
+        <button type="submit">SUBMIT</button>
+      </form>
       <!-- enter initials  -->
     </section>
 
     <section id="scoreBoard" class="hide">
       <!-- scoreboard -->
+      <div id="scoresContainer"></div>
+      <button id="clearHighscores">CLEAR</button>
     </section>
 
     <script src="./assets/script.js"></script>

@@ -1,16 +1,18 @@
 // d.query to pull from html
-let startEl = document.querySelector("#startButton");
-//let winsEl = document.querySelector("#winCount");
-//let lossesEl = document.querySelector("#lossCount");
-let timeLeftEl = document.querySelector("#timer");
-document.getElementById('clickArea')
+const startEl = document.querySelector("#startButton");
+const timeLeftEl = document.querySelector("#timer");
+const questionArea = document.getElementById("clickArea");
+const enterInitials = document.querySelector("#enterInitials");
+const highScoreForm = document.querySelector("#highScoreForm");
+const scoreBoard = document.querySelector("#scoreBoard");
+const questionContainer = document.querySelector("#questionContainer");
+const viewHighscoresBtn = document.querySelector("#viewHighscores");
+const clearHighscoresBtn = document.querySelector("#clearHighscores");
+const scoresContainer = document.querySelector('#scoresContainer')
 // variables to set score and time
-let timer = 5;
-let wins = 0;
-let losses = 0;
-let questionsCorrect = 0;
-let questionsToGuess = "";
+let timer = 120;
 let currentQuestionIndex = 0;
+
 // questions to guess. Need to be objects instead of arrays.. An array of objects?
 let questions = [
   {
@@ -24,7 +26,7 @@ let questions = [
     answer: "<script>",
   },
   {
-    question: "Where is the aplace to link the Javascript?",
+    question: "Where is the place to link the Javascript?",
     choices: ["<head>", "<header>", "<footer>", "<body>"],
     answer: "<body>",
   },
@@ -51,41 +53,66 @@ let questions = [
 ];
 
 function nextQuestion() {
-  let currentQuestion = questions[currentQuestionIndex];
-  let questionTitle = currentQuestion.question;
-  let questionAnswer = currentQuestion.answer;
-  let titleEl = document.createElement("h3");
-  let choices = currentQuestion.choices;
-  for (var i = 0; i < choices.length; i++) {
-    let choiceEl = document.createElement("button");
-    choiceEl.textContent = choices[i];
+  if (currentQuestionIndex !== questions.length) {
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionTitle = currentQuestion.question;
+    let choices = currentQuestion.choices;
+    let titleEl = document.querySelector("#clickArea h3");
+    let buttons = document.querySelectorAll(".choiceButton");
+    titleEl.textContent = questionTitle;
+    for (var i = 0; i < 4; i++) {
+      let current = buttons[i];
+      current.textContent = choices[i];
+    }
   }
 }
 
-document.getElementById
-//linked to currentQuestion variable
-//.removeChild id=
-//creating question h3 .textContent
-//create choices as buttons
-
-//for loop to call on question objects to run through questions (does not have to be randomized)
-//
-//use .removeElement(class, hide) so next div will be called on -clickevent-
-//
-//event listener to call on a question when start button is clicked
-//
-//something needs to be created dynamically?? choices of object array need to be created as buttons
-
-// create initial score count and storage for wins and losses functions
-function lose() {
-  losses++;
-  localStorage.setItem("losses", JSON.stringify(losses));
+function createQuestionContainer() {
+  if (currentQuestionIndex !== questions.length) {
+    let currentQuestion = questions[currentQuestionIndex];
+    let titleEl = document.createElement("h3");
+    titleEl.textContent = currentQuestion.question;
+    questionContainer.appendChild(titleEl);
+    for (var i = 0; i < 4; i++) {
+      let choiceEl = document.createElement("button");
+      choiceEl.classList.add("choiceButton");
+      questionContainer.appendChild(choiceEl);
+    }
+  }
 }
 
-function win() {
-  wins++;
-  localStorage.setItem("wins", JSON.stringify(wins));
-  document.location.reload();
+function checkAnswer(e) {
+  let currentQuestion = questions[currentQuestionIndex];
+  if (e.target.innerText !== currentQuestion.answer) {
+    timer -= 5;
+  }
+  currentQuestionIndex++;
+  nextQuestion();
+}
+
+function showHighscores() {
+  questionArea.classList.add("hide");
+  enterInitials.classList.add("hide");
+  scoreBoard.classList.remove("hide");
+  scoresContainer.innerHTML = ""
+  const currentHighscores = JSON.parse(localStorage.getItem("highscores"));
+  if (!currentHighscores) {
+    const noHighscoresEl = document.createElement("h3");
+    noHighscoresEl.innerHTML = "No highscores saved.";
+    return scoresContainer.append(noHighscoresEl);
+  }
+  const highscoresList = document.createElement("ol");
+  for (let i = 0; i < currentHighscores.length; i++) {
+    let score = document.createElement("li");
+    score.innerHTML =
+      "Initials: " +
+      currentHighscores[i].initials +
+      " " +
+      "Score: " +
+      currentHighscores[i].score;
+    highscoresList.append(score);
+  }
+  scoresContainer.append(highscoresList);
 }
 
 // need function for start button. Upon click timer must start counting down and I want start button to disappear. Stop function??
@@ -93,44 +120,59 @@ function startTimer() {
   var timerFunction = setInterval(function () {
     timeLeftEl.innerHTML = timer;
     timer--;
-    if (timer < 0) {
+    if (timer < 0 || currentQuestionIndex === questions.length) {
       clearInterval(timerFunction);
-      lose();
+      endGame();
     }
-    if (questions === correct) {
-      clearInterval(timerFunction);
-      win();
-    }
-    console.log(timeLeftEl);
   }, 1000);
 }
 
-// question object needs to be randomized math.random math.floor
-
 function startGame() {
+  questionContainer.innerHTML = "";
+  enterInitials.classList.add("hide");
+  scoreBoard.classList.add("hide");
+  timer = 120;
+  currentQuestionIndex = 0;
+  questionArea.classList.remove("hide");
+  createQuestionContainer();
   startTimer();
   nextQuestion();
-  // Set all innerHTML of querySelectors above
-  // if user guesses the question correctly, call win function
+}
 
-  for (var i = 0; i < questionsToGuess.length; i++) {}
+function endGame() {
+  questionArea.classList.add("hide");
+  enterInitials.classList.remove("hide");
 }
 
 startEl.addEventListener("click", function () {
   startGame();
-  //call multiple function within eventlistener
+});
+questionArea.addEventListener("click", function (e) {
+  if (e.target.matches("button")) {
+    checkAnswer(e);
+  }
 });
 
-// when question ed correctly win count must ++ and be presented with new randomized question (I want correct clicks to be green)
+highScoreForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const initials = document.querySelector("#initials").value;
+  if (!initials) {
+    return alert(
+      "No highscore saved, please enter your initials to save highscore"
+    );
+  }
+  const currentHighscores =
+    JSON.parse(localStorage.getItem("highscores")) || [];
+  currentHighscores.push({
+    initials: initials,
+    score: timer,
+  });
+  localStorage.setItem("highscores", JSON.stringify(currentHighscores));
+  showHighscores();
+});
 
-// question answered wrong time is deducted from timer say 5 seconds (incorrect questions I want red) function to -- when wrong click area??
-
-// need init page load function
-function init() {
-  winsEl.innerHTML = JSON.parse(localStorage.getItem("wins")) || 0;
-  lossesEl.innerHTML = JSON.parse(localStorage.getItem("losses")) || 0;
-}
-
-init();
-
-// start function needs to hide screen and move to next
+viewHighscoresBtn.addEventListener("click", showHighscores);
+clearHighscoresBtn.addEventListener("click", function () {
+  localStorage.removeItem("highscores");
+  showHighscores();
+});
