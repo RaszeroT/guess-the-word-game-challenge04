@@ -8,13 +8,13 @@ const scoreBoard = document.querySelector("#scoreBoard");
 const questionContainer = document.querySelector("#questionContainer");
 const viewHighscoresBtn = document.querySelector("#viewHighscores");
 const clearHighscoresBtn = document.querySelector("#clearHighscores");
-const scoresContainer = document.querySelector('#scoresContainer')
+const scoresContainer = document.querySelector("#scoresContainer");
 
 // variables to set time and index
 let timer = 120;
 let currentQuestionIndex = 0;
 
-// questions to guess. Array of objects to be called 
+// questions to guess. Array of objects to be called
 let questions = [
   {
     question: "Commonly used data types DO NOT include?",
@@ -53,7 +53,7 @@ let questions = [
   },
 ];
 
-//next question function conditional to cycle through questions 
+//next question function conditional to cycle through questions
 function nextQuestion() {
   if (currentQuestionIndex !== questions.length) {
     let currentQuestion = questions[currentQuestionIndex];
@@ -69,7 +69,7 @@ function nextQuestion() {
   }
 }
 
-// need questionContainer/playable area 
+// need questionContainer/playable area
 function createQuestionContainer() {
   if (currentQuestionIndex !== questions.length) {
     let currentQuestion = questions[currentQuestionIndex];
@@ -88,18 +88,18 @@ function createQuestionContainer() {
 function checkAnswer(e) {
   let currentQuestion = questions[currentQuestionIndex];
   if (e.target.innerText !== currentQuestion.answer) {
-    timer -= 5;
+    timer -= 10;
   }
   currentQuestionIndex++;
   nextQuestion();
 }
 
-// create score board, retrieve from storage 
+// create score board, retrieve from storage
 function showHighscores() {
   questionArea.classList.add("hide");
   enterInitials.classList.add("hide");
   scoreBoard.classList.remove("hide");
-  scoresContainer.innerHTML = ""
+  scoresContainer.innerHTML = "";
   const currentHighscores = JSON.parse(localStorage.getItem("highscores"));
   if (!currentHighscores) {
     const noHighscoresEl = document.createElement("h3");
@@ -151,7 +151,7 @@ function endGame() {
   enterInitials.classList.remove("hide");
 }
 
-// need listeners 
+// need listeners
 startEl.addEventListener("click", function () {
   startGame();
 });
