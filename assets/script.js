@@ -9,11 +9,12 @@ const questionContainer = document.querySelector("#questionContainer");
 const viewHighscoresBtn = document.querySelector("#viewHighscores");
 const clearHighscoresBtn = document.querySelector("#clearHighscores");
 const scoresContainer = document.querySelector('#scoresContainer')
-// variables to set score and time
+
+// variables to set time and index
 let timer = 120;
 let currentQuestionIndex = 0;
 
-// questions to guess. Need to be objects instead of arrays.. An array of objects?
+// questions to guess. Array of objects to be called 
 let questions = [
   {
     question: "Commonly used data types DO NOT include?",
@@ -52,6 +53,7 @@ let questions = [
   },
 ];
 
+//next question function conditional to cycle through questions 
 function nextQuestion() {
   if (currentQuestionIndex !== questions.length) {
     let currentQuestion = questions[currentQuestionIndex];
@@ -67,6 +69,7 @@ function nextQuestion() {
   }
 }
 
+//need questionContainer/playable area 
 function createQuestionContainer() {
   if (currentQuestionIndex !== questions.length) {
     let currentQuestion = questions[currentQuestionIndex];
@@ -81,6 +84,7 @@ function createQuestionContainer() {
   }
 }
 
+// Check answer conditional
 function checkAnswer(e) {
   let currentQuestion = questions[currentQuestionIndex];
   if (e.target.innerText !== currentQuestion.answer) {
@@ -90,6 +94,7 @@ function checkAnswer(e) {
   nextQuestion();
 }
 
+// create score board, retrieve from storage 
 function showHighscores() {
   questionArea.classList.add("hide");
   enterInitials.classList.add("hide");
@@ -115,7 +120,7 @@ function showHighscores() {
   scoresContainer.append(highscoresList);
 }
 
-// need function for start button. Upon click timer must start counting down and I want start button to disappear. Stop function??
+//timer
 function startTimer() {
   var timerFunction = setInterval(function () {
     timeLeftEl.innerHTML = timer;
@@ -127,6 +132,7 @@ function startTimer() {
   }, 1000);
 }
 
+// start game, call on needed functions for onclick
 function startGame() {
   questionContainer.innerHTML = "";
   enterInitials.classList.add("hide");
@@ -139,11 +145,13 @@ function startGame() {
   nextQuestion();
 }
 
+// endgame
 function endGame() {
   questionArea.classList.add("hide");
   enterInitials.classList.remove("hide");
 }
 
+// need listeners 
 startEl.addEventListener("click", function () {
   startGame();
 });
@@ -161,6 +169,7 @@ highScoreForm.addEventListener("submit", function (e) {
       "No highscore saved, please enter your initials to save highscore"
     );
   }
+  //  retrieve scores
   const currentHighscores =
     JSON.parse(localStorage.getItem("highscores")) || [];
   currentHighscores.push({
