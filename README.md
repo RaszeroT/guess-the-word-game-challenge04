@@ -43,14 +43,14 @@
 
 <a href="https://raszerot.github.io/guess-the-word-game-challenge04/">My Pop Quiz!!</a>
 
-
 ## Images of webpage functionality
 
-<img src="" alt="">
-<img src="" alt="">
-<img src="" alt="">
-<img src="" alt="">
-<img src="" alt="">
+<img src="./assets/images/index-image1.jpeg" width="300" height="300"> 
+<img src="./assets/images/multiple-choice2.jpeg" width="300" height="300">
+<img src="./assets/images/multiple-choice3.jpeg" width="300" height="300">
+<img src="./assets/images/enter-initials4.jpeg" width="300" height="300">
+<img src="./assets/images/highscore5.jpeg" width="300" height="300">
+<img src="./assets/images/clear-highscore6.jpeg" width="300" height="300">
 
 ## License
 
