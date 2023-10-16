@@ -17,7 +17,7 @@
 <ul>
 <li>Body background color,</li>
 <li>Centered text and added padding-top,</li>
-<li>changed size and color of start button, and</li>
+<li>Changed size and color of start button, and</li>
 <li>Class .hide to display none to hide elements and remove class dynamically through JavaScript.</li>
 </ul>
 
