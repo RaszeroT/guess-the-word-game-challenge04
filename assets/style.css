@@ -9,20 +9,15 @@ header {
 }
 
 #startButton {
-    font-size: 50px;
+    font-size: 50px;                                                         
     font-weight: bold;
     background-color: blueviolet;
     color: beige;
 }
 
-ul {
-    float: right;
-    padding-right: 100px;
-}
-
-li {
-    text-decoration: none;
-    font-size: 25px;
+#clickArea {
+    text-align: center;
+    padding-top: 50px;
 }
 
 .hide {

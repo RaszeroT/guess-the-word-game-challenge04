@@ -69,7 +69,7 @@ function nextQuestion() {
   }
 }
 
-//need questionContainer/playable area 
+// need questionContainer/playable area 
 function createQuestionContainer() {
   if (currentQuestionIndex !== questions.length) {
     let currentQuestion = questions[currentQuestionIndex];
@@ -169,6 +169,7 @@ highScoreForm.addEventListener("submit", function (e) {
       "No highscore saved, please enter your initials to save highscore"
     );
   }
+
   //  retrieve scores
   const currentHighscores =
     JSON.parse(localStorage.getItem("highscores")) || [];
@@ -179,7 +180,6 @@ highScoreForm.addEventListener("submit", function (e) {
   localStorage.setItem("highscores", JSON.stringify(currentHighscores));
   showHighscores();
 });
-
 viewHighscoresBtn.addEventListener("click", showHighscores);
 clearHighscoresBtn.addEventListener("click", function () {
   localStorage.removeItem("highscores");
