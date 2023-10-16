@@ -9,13 +9,13 @@ header {
 }
 
 #startButton {
-    font-size: 50px;                                                         
+    font-size: 50px;           
     font-weight: bold;
     background-color: blueviolet;
     color: beige;
 }
 
-#clickArea {
+#clickArea, #enterInitials {
     text-align: center;
     padding-top: 50px;
 }
